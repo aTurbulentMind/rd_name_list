@@ -1,0 +1,54 @@
+:root{
+    // spacing
+    --pad_sm: 0.25rem;
+    --pad: 0.75rem;
+    --pad_xl: 1.5rem;
+    --pad_xxl: 2rem;
+
+    //Margin
+    --marg: 0.75rem ;
+    --marg_xl: 1.5rem ;
+    --marg_xxl: 2rem ;
+    --marg_xxxl: 3rem ;
+
+    //block spacing
+    --lrg_marg: 10% 20%;
+    --full_marg: 10%;
+    --half_marg:15% 8%;
+    --qtr_marg: 8%;
+
+    // borders
+    --thick: 1px ;
+    --rad: 10px ;
+    --bord: 5px dotted var(--extra);
+
+    // shadow
+    --box_Shadow: 6px 6px 22px  hsl(39, 81%, 4%);
+    --box_Light: 2px 2px 5px hsl(283, 46%, 35%);
+    
+    --text_Shadow:2px 2px 4px hsl(27, 96%, 29%);
+    --text_Light:2px 2px 2px hsl(40, 86%, 66%);
+
+    //opacity
+    --op_t:0.25;
+    --op_m:0.5;
+    --op_s:0.75;
+
+    // font sizes
+    --f_xsm:0.25rem;
+    --f_sm: 0.75rem;
+    --font: 1rem;
+    --f_m:1.25rem;
+    --f_lg: 1.5rem;
+    --f_xl: 3rem;
+    --f_xxl: 4rem;
+    --f_xxxl: 5rem;
+
+    //font stack
+    --font_Main: 'Noto Sans', sans-serif;
+    --font_Alt:'Poppins', sans-serif;
+
+    //transit/ani
+    --tSpeed: 0.3s;
+ }
+
