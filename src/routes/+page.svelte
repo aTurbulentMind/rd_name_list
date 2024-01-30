@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	let team = [
 		{ number: '#764', nickname: 'Lazer', fullname: 'Lazer' },
 		{ number: '#23', nickname: 'Girlfriend', fullname: 'Nacho Girlfriend' },
@@ -25,7 +27,7 @@
 		{ number: '#942', nickname: 'Elsa', fullname: '' }
 	];
 
-	let gameRoster = ['#764', '#23', '#0'];
+	let gameRoster = [''];
 
 	let matchRoster = team.filter((player) => gameRoster.includes(player.number));
 
@@ -36,27 +38,65 @@
 		}
 	}
 
+	function removeFromGameRoster(number) {
+		if (gameRoster.includes(number)) {
+			gameRoster = gameRoster.filter((n) => n !== number);
+			matchRoster = team.filter((player) => gameRoster.includes(player.number));
+		}
+	}
+
 	function selectAll() {
 		gameRoster = team.map((player) => player.number);
 		matchRoster = [...team];
 	}
+
+	function unselectAll() {
+		gameRoster = [];
+		matchRoster = [];
+	}
+
+	function generateMatchPage() {
+		sessionStorage.setItem('matchRoster', JSON.stringify(matchRoster));
+		goto('/match');
+	}
 </script>
 
 <grid>
+	<h2>The whole team</h2>
+	<button style="background-color: var(--grabber); text-align:center;" on:click={selectAll}
+		>Select All</button
+	>
+	<button style="background-color: var(--halter); text-align:center;" on:click={unselectAll}
+		>Unselect All</button
+	>
+
+	{#each team as player}
+		<rosterPick>
+			<number> {player.number}</number>
+			<button
+				class:added={gameRoster.includes(player.number)}
+				on:click={() => addToGameRoster(player.number)}>✔️</button
+			>
+			<button
+				class:unadded={!gameRoster.includes(player.number)}
+				on:click={() => removeFromGameRoster(player.number)}
+				>✖️
+			</button>
+		</rosterPick>
+	{/each}
+
+	<h2>Print</h2>
+	<button
+		style="background-color: var(--purps); font-size:var(--f_xl);"
+		on:click={generateMatchPage}>Generate Match Page</button
+	>
+
 	<h2>The next match</h2>
 	{#each matchRoster as player}
 		<namecard>
 			<number> {player.number}</number>
 			<nickname>{player.nickname}</nickname>
 			<fullname> {player.fullname}</fullname>
-		</namecard>
-	{/each}
-	<h2>The whole team</h2>
-	<button on:click={selectAll}>Select All</button>
-
-	{#each team as player}
-		<namecard on:click={() => addToGameRoster(player.number)}>
-			<number> {player.number}</number>
 		</namecard>
 	{/each}
 </grid>
@@ -69,6 +109,11 @@
 	}
 	h2 {
 		font-size: var(--f_xl);
+	}
+
+	button {
+		all: unset;
+		cursor: pointer;
 	}
 
 	grid {
@@ -84,12 +129,28 @@
 			grid-column: span 2;
 		}
 
+		rosterPick {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+
+			.added {
+				background-color: hsl(145, 59%, 49%);
+				width: fit-content;
+				border-radius: 50%;
+			}
+
+			.unadded {
+				background-color: rgb(206, 10, 43);
+				width: fit-content;
+				border-radius: 50%;
+			}
+		}
+
 		namecard {
 			display: grid;
 			text-align: center;
 			border: 2px dotted #000;
 			font-weight: 500;
-			cursor: pointer;
 
 			number,
 			nickname {
@@ -105,6 +166,10 @@
 				color: var(--purps);
 				text-shadow: var(--box_Light);
 				font-size: var(--f_lg);
+			}
+
+			button {
+				cursor: pointer;
 			}
 		}
 	}
