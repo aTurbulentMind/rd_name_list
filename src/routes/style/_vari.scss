@@ -20,13 +20,16 @@
     // borders
     --thick: 1px ;
     --rad: 10px ;
+    --rnd: 50px ;
     --bord: 5px dotted var(--extra);
 
     // shadow
     --box_Shadow: 6px 6px 22px  hsl(39, 81%, 4%);
-    --box_Light: 2px 2px 5px hsl(283, 46%, 35%);
+    --box_Light: 2px 2px 8px hsl(283, 46%, 35%);
+    --box_Light_Wide: 0px 2px 25px hsl(283, 46%, 35%);
     
     --text_Shadow:2px 2px 4px hsl(27, 96%, 29%);
+    --text_Shadow_Wide:6px 2px 25px hsl(27, 96%, 29%);
     --text_Light:2px 2px 2px hsl(40, 86%, 66%);
 
     //opacity

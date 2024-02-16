@@ -1,18 +1,17 @@
 <script>
 	let matchRoster = JSON.parse(sessionStorage.getItem('matchRoster')) || [];
-
-	// You can now use matchRoster in this component
 </script>
 
 <grid>
-	{#each matchRoster as player}
+
+{#each matchRoster as player}
 		<namecard>
-			<number> {player.number}</number>
-			<nickname>{player.nickname}</nickname>
-			<fullname> {player.fullname}</fullname>
+			<number> #{player.player_number}</number>
+			<nickname>{player.name}</nickname>
+			<fullname> {player.full_name}</fullname>
 		</namecard>
 	{/each}
-	<button on:click={() => window.print()}>Print</button>
+<button on:click={() => window.print()}>Print</button>
 </grid>
 
 <!-- svelte-ignore css-unused-selector -->
@@ -20,22 +19,30 @@
 	@use '../style/baseCamp';
 	@page {
 		margin: 0;
+
 	}
 	:global(*) {
 		box-sizing: border-box;
 	}
+
+	
+
 	h2 {
 		font-size: var(--f_xl);
 	}
 
 	grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-		height: 100%;
+		grid-template-columns: 1fr 1fr; 
+		grid-template-rows: 1fr 1fr 1fr;
+		width: 100vw;
+		height: 100vh;
 		margin: 0;
 		font-size: var(--f_xxxl);
 		text-transform: uppercase;
+		z-index: 999;
+
+
 
 		namecard {
 			display: grid;
@@ -45,7 +52,7 @@
 
 			number,
 			nickname {
-				color: var(--orgss);
+				color: var(--orgs);
 				text-shadow: var(--text_Shadow);
 			}
 

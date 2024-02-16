@@ -1,105 +1,46 @@
 <script>
-	import { goto } from '$app/navigation';
-
-	let team = [
-		{ number: '#764', nickname: 'Lazer', fullname: 'Lazer' },
-		{ number: '#23', nickname: 'Girlfriend', fullname: 'Nacho Girlfriend' },
-		{ number: '#0', nickname: 'Freeze', fullname: 'Freezer Burn' },
-		{ number: '#122', nickname: 'Whoops', fullname: 'Whoopsie Daisy' },
-		{ number: '#25', nickname: 'Foxy', fullname: 'Foxy Jocie' },
-		{ number: '#303', nickname: 'Blitz', fullname: 'sugar blitz' },
-		{ number: '#62', nickname: 'Squirrely', fullname: 'Squirrely Temple' },
-		{ number: '#8', nickname: 'Maxx', fullname: 'Mad Maxxine' },
-		{ number: '#309', nickname: 'Cypher', fullname: 'Cypher' },
-		{ number: '#20', nickname: 'Slyde', fullname: 'Slydeways' },
-		{ number: '#515', nickname: 'lit', fullname: 'Literally Katie' },
-		{ number: '#6', nickname: 'chaos', fullname: 'Chaos party of six' },
-		{ number: '#68', nickname: 'Gnome', fullname: "Gaurdin' gnome" },
-		{ number: '#210', nickname: 'Giggles', fullname: 'Hits & Giggles' },
-		{ number: '#05', nickname: 'kat', fullname: 'Kategory 5' },
-		{ number: '#5150', nickname: 'Medic', fullname: 'Mad Medic' },
-		{ number: '#101', nickname: 'Shovey', fullname: 'P.S. I shove You' },
-		{ number: '#117', nickname: 'Nixie', fullname: 'Nixie' },
-		{ number: '#08', nickname: 'stare', fullname: 'Shred Astare' },
-		{ number: '#57', nickname: 'Rizzo', fullname: 'Sonic chorizo' },
-		{ number: '#86', nickname: 'Twist', fullname: 'Twisted Spinster' },
-		{ number: '#17', nickname: "Lil'Dizzy", fullname: 'Dysfunctional Dame' },
-		{ number: '#942', nickname: 'Elsa', fullname: '' }
-	];
-
-	let gameRoster = [''];
-
-	let matchRoster = team.filter((player) => gameRoster.includes(player.number));
-
-	function addToGameRoster(number) {
-		if (!gameRoster.includes(number)) {
-			gameRoster = [...gameRoster, number];
-			matchRoster = team.filter((player) => gameRoster.includes(player.number));
-		}
-	}
-
-	function removeFromGameRoster(number) {
-		if (gameRoster.includes(number)) {
-			gameRoster = gameRoster.filter((n) => n !== number);
-			matchRoster = team.filter((player) => gameRoster.includes(player.number));
-		}
-	}
-
-	function selectAll() {
-		gameRoster = team.map((player) => player.number);
-		matchRoster = [...team];
-	}
-
-	function unselectAll() {
-		gameRoster = [];
-		matchRoster = [];
-	}
-
-	function generateMatchPage() {
-		sessionStorage.setItem('matchRoster', JSON.stringify(matchRoster));
-		goto('/match');
-	}
+import Hero from '$lib/assets/heropus.jpg';
 </script>
 
-<grid>
-	<h2>The whole team</h2>
-	<button style="background-color: var(--grabber); text-align:center;" on:click={selectAll}
-		>Select All</button
-	>
-	<button style="background-color: var(--halter); text-align:center;" on:click={unselectAll}
-		>Unselect All</button
-	>
 
-	{#each team as player}
-		<rosterPick>
-			<number> {player.number}</number>
-			<button
-				class:added={gameRoster.includes(player.number)}
-				on:click={() => addToGameRoster(player.number)}>✔️</button
-			>
-			<button
-				class:unadded={!gameRoster.includes(player.number)}
-				on:click={() => removeFromGameRoster(player.number)}
-				>✖️
-			</button>
-		</rosterPick>
-	{/each}
+<div class="hero-banner">
+  <div class="hero-text">West Sound Roller Derby</div>
+</div>
 
-	<h2>Print</h2>
-	<button
-		style="background-color: var(--purps); font-size:var(--f_xl);"
-		on:click={generateMatchPage}>Generate Match Page</button
-	>
+<h1>Welcome to the West Sound Roller Derby Team Page</h1>
 
-	<h2>The next match</h2>
-	{#each matchRoster as player}
-		<namecard>
-			<number> {player.number}</number>
-			<nickname>{player.nickname}</nickname>
-			<fullname> {player.fullname}</fullname>
-		</namecard>
-	{/each}
-</grid>
+<p> This is just a test page that started with trying to print from the browser. Now it has a bunch of functionality. It can still print the match.
+	<br> 
+	Go check it out <a href="/printMatch">Here</a> </p>
+
+
+<p>There is a login system that has tables to store information about the players. It has a place to view your profile. 
+	<br>
+	Go check out the register <a href="/register">Here</a>
+	<br>
+	The login is here <a href="/login">Here</a>
+</p>
+	
+
+	<p>And then a roster page with everyone in a grid. You can select a player and it will show their profile picture which call from cloud storage and the info it calls from the database.
+			<br>
+	Go check it out <a href="/roster">Here</a>
+	</p>
+
+<p>I had to add a warehouse system for storing and updating warehouse inventory with image upload for reference. 
+		<br>
+	Go check it out <a href="/warehouse">Here</a>
+</p>
+
+<p>
+And it has a user level system so that some spaces or actions are not available unless you are a certain level. That is not as simplie as pointing you in a direction.
+		<br>
+		But you could try to go here if you are allowed <a href="/addTeamMember">Here</a>
+</p>
+
+<p>A bit overkill from the request to print some names, but it was fun.</p>
+
+
 
 <!-- svelte-ignore css-unused-selector -->
 <style lang="scss">
@@ -107,72 +48,50 @@
 	:global(*) {
 		box-sizing: border-box;
 	}
-	h2 {
-		font-size: var(--f_xl);
+
+	/* Improved typography and spacing */
+	h1{
+		margin: 10% 15%;
 	}
 
-	button {
-		all: unset;
-		cursor: pointer;
+	p{
+		margin: 5% 15%;
+		font-size: var(--f_lg);
+		padding: 1% 0;
 	}
 
-	grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100vw;
+	a{
+		color: var(--purps);
+		font-weight: 700;
+	}
+
+
+ .hero-banner {
+	 	display: flex;
+	    position: relative;
+    	background-image: url('$lib/assets/heropus.jpg');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
 		height: 100vh;
-		margin: 0;
-		font-size: var(--f_xxl);
-		text-transform: uppercase;
+		width: 100vw;
+		margin-top: 8vh;
+  }
 
-		h2 {
-			grid-column: span 2;
-		}
+  .hero-text {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--back_Main); /* Choose a text color that has good contrast with your hero image */
+    font-size: var(--f_xl);
+	padding: 1%;
+	background-color: var(--back_Hallow);
+	border-radius: var(--rnd);
+	box-shadow: var(--box_Light_Wide);
+  }
 
-		rosterPick {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-
-			.added {
-				background-color: hsl(145, 59%, 49%);
-				width: fit-content;
-				border-radius: 50%;
-			}
-
-			.unadded {
-				background-color: rgb(206, 10, 43);
-				width: fit-content;
-				border-radius: 50%;
-			}
-		}
-
-		namecard {
-			display: grid;
-			text-align: center;
-			border: 2px dotted #000;
-			font-weight: 500;
-
-			number,
-			nickname {
-				color: var(--orgss);
-				text-shadow: var(--text_Shadow);
-			}
-
-			nickname {
-				font-size: var(--f_xl);
-			}
-
-			fullname {
-				color: var(--purps);
-				text-shadow: var(--box_Light);
-				font-size: var(--f_lg);
-			}
-
-			button {
-				cursor: pointer;
-			}
-		}
-	}
+  
 
 	@media only screen and (min-width: 740px) {
 	}

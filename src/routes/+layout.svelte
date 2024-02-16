@@ -1,9 +1,14 @@
 <script>
+	import Header from './Nav.svelte';
+
 	import './style/baseCamp.scss';
+	
 </script>
 
-<slot />
+<Header />
 
+
+<slot />
 <!-- svelte-ignore css-unused-selector -->
 <style lang="scss">
 	@use 'style/baseCamp';
