@@ -489,6 +489,8 @@ function showMessage(text, type) {
 
 <h1>This is a page to add new people to different spaces and manipulate their data</h1>
 
+<p class="larrg">This should be viewed on a large screen</p>
+
 {#if userHasAccess}
   <!-- Your page content goes here -->
 
@@ -643,6 +645,8 @@ function showMessage(text, type) {
 		box-sizing: border-box;
 	}
 
+
+
     h1{
     text-align: center;
     margin: 10%;
@@ -704,4 +708,14 @@ function showMessage(text, type) {
     margin: 5vh 15vw;
 
   }
+
+    .larrg{
+    display: none;
+  }
+
+  	@media only screen and (max-width: 740px) {
+      .larrg{
+        display: block;
+      }
+	}
 </style>

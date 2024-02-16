@@ -240,4 +240,30 @@ async function fetchPlayerImage() {
   backdrop-filter: blur(5px);
 }
 
+	@media only screen and (max-width: 740px) {
+
+      h1{
+    text-align: center;
+    margin: 20%;
+  }
+
+    grid{
+      grid-template-columns: 1fr 1fr;
+      width: 100vw;
+      margin: 0 2vw;
+
+            button{
+        width: 40vw;
+        padding: 1%;
+        border-radius: var(--rad);
+
+                profile{
+                  display: grid;
+                  color: var(--back_Main);
+                  font-size: var(--f_lg);
+        }
+    }
+
+    }}
+
 </style>

@@ -55,10 +55,18 @@ function generateMatchPage() {
 }
 </script>
 
+<h1>Print match page</h1>
+
+<p class="larrg">This should be viewed of a full sceen</p>
 
 <grid>
 
 <h2>The whole team</h2>
+
+
+
+
+
 <button style="background-color: var(--grabber); text-align:center;" on:click={selectAll}>Select All</button>
 <button style="background-color: var(--halter); text-align:center;" on:click={unselectAll}>Unselect All</button>
 
@@ -94,6 +102,11 @@ function generateMatchPage() {
 	:global(*) {
 		box-sizing: border-box;
 	}
+
+	  h1{
+    text-align: center;
+    margin: 10%;
+  }
 
 
 	h2 {
@@ -184,7 +197,14 @@ function generateMatchPage() {
 		}
 	}
 
-	@media only screen and (min-width: 740px) {
+    .larrg{
+    display: none;
+  }
+
+  	@media only screen and (max-width: 740px) {
+      .larrg{
+        display: block;
+      }
 	}
 
 	@media only screen and (min-width: 980px) {

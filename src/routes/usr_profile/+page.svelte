@@ -261,7 +261,25 @@ button{
     }
 }
 
-	@media only screen and (min-width: 740px) {
+	@media only screen and (max-width: 740px) {
+      img{
+    width: 60vw;
+    margin: 0 20vw;
+  }
+
+    grid {
+      grid-template-columns: 1fr;
+      width: 90vw;
+      margin:5vw;
+
+              h2 {
+          font-size: var(--f_m);
+        }
+
+        input{
+          width: 80%;
+  }
+    }
 	}
 
 	@media only screen and (min-width: 980px) {

@@ -57,7 +57,7 @@
 	</nav>
 	<button on:click={toggleMenu} on:keydown={() => (isMenuOpen = false)}>
 		<div class="burger">
-			<svg> XXX</svg>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
 		</div>
 	</button>
 </div>
@@ -89,7 +89,7 @@
 		}
 
 		select {
-			background: var(--back_Tre);
+			background: var(--orgs);
 		}
 	}
 
@@ -112,6 +112,11 @@
 	@media only screen and (max-width: 767px) {
 		.navbar {
 			height: 3rem;
+
+				.logo {
+			font-size: var(--f_m);
+	}
+
 		}
 
 		nav {
@@ -123,18 +128,15 @@
 			position: absolute;
 			top: 100%;
 			left: 0;
-			background-color: var(--extra);
+			background-color: var(--orgs);
 			width: 100%;
 		}
-	}
+	
 
-	.logo {
-		h1 {
-			font-size: var(--font);
-		}
-	}
 
-	ul {
+}
+
+ul {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -178,7 +180,7 @@
 		width: 30px;
 		aspect-ratio: 1;
 		background-color: transparent;
-		margin-top: 1vh;
+		
 		margin-right: 6vw;
 		display: flex;
 		align-items: center;

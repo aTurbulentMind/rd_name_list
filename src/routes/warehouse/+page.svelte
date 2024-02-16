@@ -294,6 +294,8 @@ onMount(fetchData);
 
 <h1>Lets store some inventory</h1>
 
+<p class="larrg">This should be viewed of a full sceen</p>
+
 <table>
   <thead>
     <tr>
@@ -534,4 +536,14 @@ onMount(fetchData);
                 background-color: var(--halter);
             }
 }
+
+    .larrg{
+    display: none;
+  }
+
+  	@media only screen and (max-width: 740px) {
+      .larrg{
+        display: block;
+      }
+	}
 </style>

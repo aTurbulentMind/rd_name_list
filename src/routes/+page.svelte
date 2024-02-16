@@ -93,7 +93,33 @@ And it has a user level system so that some spaces or actions are not available 
 
   
 
-	@media only screen and (min-width: 740px) {
+	@media only screen and (max-width: 740px) {
+		 .hero-banner {
+			height: 80vh;
+		margin-top: 0;
+		background-position: center;
+
+		.hero-text{
+			font-size: 2rem;
+			text-align: center;
+		}
+	}
+
+	
+			h1{
+		font-size: var(--f_m);
+	}
+
+	p{
+		margin: 5%;
+		font-size: var(--f_m);
+		padding: 1% 0;
+	}
+
+	a{
+		color: var(--purps);
+		font-weight: 700;
+	}
 	}
 
 	@media only screen and (min-width: 980px) {
