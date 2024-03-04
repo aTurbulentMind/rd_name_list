@@ -4,64 +4,73 @@
   import { writable } from 'svelte/store';
 
   let userHasAccess = true;
+
   let name = '';
+  let full_name = '';
   let players = [];
+  let usr_lvl = '';
+  let player_number = '';
+  let role = '';
+  let from_location = '';
+  let story = '';
+  let hobbies = '';
+
   let selectedPlayerToDelete = '';
   let selectedPlayerToAddNumber = '';
   let selectedPlayerToAddDetails = '';
   let selectedPlayerImage = '';
   let selectedPlayerToModify = '';
-  let usr_lvl = '';
-  
   let selectedPlayer = '';
-  let player_number = '';
-  let full_name = '';
-  let role = '';
-  let from_location = '';
-  let story = '';
-  let hobbies = '';
+  
   let selectedFiles = '';
   const publicURL = writable('');
 
   let message = '';
   let messageType = '';
 
-//function to check usr_lv before loading the page if the usr_lvl from the 'main' table is below 7 it will not render the page and only show a message ' you do not have access here'
+
+// This function checks the user's access level.
 
 async function checkUsrLvl() {
-  // Correct usage of supabase.auth.session()
-  const { data: userAuth } = await supabase.auth.getSession(); // Retrieve the current authenticated user session data
+  // First, we retrieve the user's authentication session using Supabase.
+  const { data: userAuth } = await supabase.auth.getSession();
 
+  // If there is no user authentication session, log an error and return.
   if (!userAuth) {
     console.error('No user logged in');
     return;
   }
 
-  // Fetch the usr_lvl for the current user from the 'main' table in Supabase
+  // Next, we query the Supabase database to get user data.
   const { data: userData, error: userError } = await supabase
     .from('main')
     .select('usr_lvl')
-    .eq('email', userAuth.session.user.email); // Replace 'user_id' with the actual field name for user identification in your 'main' table
+    .eq('email', userAuth.session.user.email);
 
+  // If there's an error fetching user data, log the error and return.
   if (userError) {
     console.error(userError);
     return;
   }
 
-if (userData && userData.length > 0) {
-      const usrLvl = userData[0].usr_lvl;
-      if (usrLvl < 7) {
-        message = 'You do not have access here';
-        messageType = 'error';
-        userHasAccess = false; // Set userHasAccess to false
-        return;
+  // If user data exists and the array is not empty, proceed.
+  if (userData && userData.length > 0) {
+    // Extract the user's access level from the retrieved data.
+    const usrLvl = userData[0].usr_lvl;
+
+    // Check if the user's access level is less than 7.
+    if (usrLvl < 7) {
+      // If so, set an error message and indicate that the user does not have access.
+      message = 'You do not have access here';
+      messageType = 'error';
+      userHasAccess = false;
+      return;
     }
   }
 }
 
+// Call the checkUsrLvl function to perform the access level check.
 checkUsrLvl();
-
-
 
 
 // Function to add a player
@@ -86,6 +95,7 @@ async function addPlayer(event) {
 
 
 // Function to fetch and display players when the component mounts
+
 onMount(async () => {
   // Correct usage of supabase.auth.session()
   const { data: userAuth } = await supabase.auth.getSession(); // Retrieve the current authenticated user session data
@@ -99,7 +109,7 @@ onMount(async () => {
   const { data: userData, error: userError } = await supabase
     .from('main')
     .select('usr_lvl')
-    .eq('email', userAuth.session.user.email); // Replace 'user_id' with the actual field name for user identification
+    .eq('email', userAuth.session.user.email);
 
   // If there's an error, log it
   if (userError) {
@@ -123,6 +133,8 @@ onMount(async () => {
 });
 
 
+// Function to modify a usr_lvl
+
 async function modify_usr_lvl(event) {
   // Prevent the default form submission behavior
   event.preventDefault();
@@ -141,8 +153,6 @@ async function modify_usr_lvl(event) {
     name = '';
   }
 }
-
-
 
 
 // Function to delete a player
@@ -321,6 +331,8 @@ async function fetchPlayerDetails() {
 }
 
 
+
+// Function to fetch player image
 async function fetchPlayerImage(playerName) {
   // Log the name of the selected player for whom the image is being fetched
   console.log('Fetching image for player:', playerName);
@@ -387,10 +399,8 @@ async function deleteImage(playerName) {
 }
 
 
-
-
-
 // Function to add player details
+
 async function addPlayerDetails(event) {
   // Prevent the default form submission behavior
   event.preventDefault();
@@ -409,7 +419,6 @@ async function addPlayerDetails(event) {
 
   // Upload the image for the selected player
   await uploadImage(playerDetails[0].name);
-
 
   // Construct the file path for the selected player's image
   const filePath = `profile_Pics/${playerDetails[0].name}.jpg`;
@@ -486,18 +495,16 @@ function showMessage(text, type) {
 </script>
 
 
-
 <h1>This is a page to add new people to different spaces and manipulate their data</h1>
 
 <p class="larrg">This should be viewed on a large screen</p>
 
 {#if userHasAccess}
-  <!-- Your page content goes here -->
 
 <div class="chunk">
 <h2>Add/Delete player</h2>
 
-  <!-- this should modify the usr_lvl of a select player -->
+<!-- this should modify the usr_lvl of a select player -->
 <form on:submit={modify_usr_lvl}>
   <label for="player">Select a player:</label>
   <select id="player" bind:value={selectedPlayerToModify}>
@@ -531,111 +538,100 @@ function showMessage(text, type) {
 </div>
 
 
-
 <div class="chunk">
 
 <h2>Add/Delete Player Number/Full Name</h2>
-<form on:submit={addPlayerNumber}>
-<label for="player">Select a player:</label>
-<select id="player" bind:value={selectedPlayerToAddNumber} on:change={fetchPlayerData}>
-  {#each players as player (player.id)}
-    <option value={player.id}>{player.name}</option>
-  {/each}
-</select>
+  <form on:submit={addPlayerNumber}>
+    <label for="player">Select a player:</label>
+      <select id="player" bind:value={selectedPlayerToAddNumber} on:change={fetchPlayerData}>
+        {#each players as player (player.id)}
+          <option value={player.id}>{player.name}</option>
+        {/each}
+      </select>
 
   <br>
 
-  <label for="player_number">Player Number:</label>
-  <input id="player_number" type="text" bind:value={player_number} required>
+    <label for="player_number">Player Number:</label>
+    <input id="player_number" type="text" bind:value={player_number} required>
 
   <br>
 
-  <label for="full_name">Full Name:</label>
-  <input id="full_name" type="text" bind:value={full_name} required>
+    <label for="full_name">Full Name:</label>
+    <input id="full_name" type="text" bind:value={full_name} required>
 
   <br> <br>
 
-  <button type="submit">Add Player</button>
-  <button type="button" on:click={deletePlayerNumber}>Delete Player From Number/Full Name</button>
+    <button type="submit">Add Player</button>
+    <button type="button" on:click={deletePlayerNumber}>Delete Player From Number/Full Name</button>
 </form>
 
 </div>
 
 
-
 <div class="chunk">
 
 <h2>Add/Delete Player Details</h2>
-
-
 <form on:submit={addPlayerDetails}>
   <label for="player_details">Select a player:</label>
-  <select id="player_details" bind:value={selectedPlayerToAddDetails} on:change={fetchPlayerDetails}>
-    {#each players as player (player.id)}
-      <option value={player.id}>{player.name}</option>
-    {/each}
-  </select>
+    <select id="player_details" bind:value={selectedPlayerToAddDetails} on:change={fetchPlayerDetails}>
+      {#each players as player (player.id)}
+        <option value={player.id}>{player.name}</option>
+      {/each}
+    </select>
 
-  <label for="role">Role:</label>
-  <input id="role" type="text" bind:value={role}>
+    <label for="role">Role:</label>
+    <input id="role" type="text" bind:value={role}>
   <br>
 
-  <label for="from_location">From:</label>
-  <input id="from_location" type="text" bind:value={from_location}>
+    <label for="from_location">From:</label>
+    <input id="from_location" type="text" bind:value={from_location}>
 
     <label for="hobbies">Hobbies:</label>
-  <input id="hobbies" type="text" bind:value={hobbies}>
+    <input id="hobbies" type="text" bind:value={hobbies}>
   <br>
 
-  <label for="story">Story:</label>
-  <textarea id="story" bind:value={story}></textarea>
+    <label for="story">Story:</label>
+    <textarea id="story" bind:value={story}></textarea>
   <br>
 
   <br>
   <br>
-  <!-- If 'selectedPlayerImage' is not null, display the selected player's image -->
-  {#if selectedPlayerImage}
-  <img src={selectedPlayerImage} alt={selectedPlayer.name} />
-  {/if}
+    {#if selectedPlayerImage}
+      <img src={selectedPlayerImage} alt={selectedPlayer.name} />
+    {/if}
   <br>
   <br>
 
 
- <!-- replace 'playerName' with the actual player name -->
+    <br><br>
+      <label for="imageUpload">Upload New Image:</label>
+      <input style="color=#fff" type="file" id="imageUpload" bind:files={selectedFiles} accept="image/*">
+
 
   <br><br>
-<!---->
-  <label for="imageUpload">Upload New Image:</label>
-<input style="color=#fff" type="file" id="imageUpload" bind:files={selectedFiles} accept="image/*">
+    <button type="submit">Add Player Details</button>
+    <button type="button" on:click={deletePlayerDetails}>Delete Player Details</button>
+    <p class={messageType}>{message}</p>
 
 
-<br><br>
-  <button type="submit">Add Player Details</button>
-  <button type="button" on:click={deletePlayerDetails}>Delete Player Details</button>
-  <p class={messageType}>{message}</p>
-
-
-  {#if selectedPlayerImage}
-<button
-  on:click={() => {
-    const playerName = selectedPlayerImage.split('/').pop().split('.')[0]; // Extracting player name from URL
-    console.log("Triggering deleteImage for player:", playerName);
-    deleteImage(playerName);
-  }}
->
-  Delete Selected Image
-</button>
-
-{/if}
+    {#if selectedPlayerImage}
+      <button
+        on:click={() => {
+          const playerName = selectedPlayerImage.split('/').pop().split('.')[0]; // Extracting player name from URL
+          console.log("Triggering deleteImage for player:", playerName);
+        deleteImage(playerName);
+    }}
+      >
+        Delete Selected Image
+      </button>
+    {/if}
 </form>
-  
 </div>
 
 {:else}
   <p>{message}</p>
   <a href="/">Go Home</a>
 {/if}
-<br>
 
 
 <!-- svelte-ignore css-unused-selector -->
@@ -645,8 +641,6 @@ function showMessage(text, type) {
 		box-sizing: border-box;
 	}
 
-
-
     h1{
     text-align: center;
     margin: 10%;
@@ -654,7 +648,7 @@ function showMessage(text, type) {
   
     h2{
       margin: 10vh 15vw;
-    }
+  }
 
     img {
     width: 20vw;
@@ -709,11 +703,11 @@ function showMessage(text, type) {
 
   }
 
-    .larrg{
+  .larrg{
     display: none;
   }
 
-  	@media only screen and (max-width: 740px) {
+@media only screen and (max-width: 740px) {
       .larrg{
         display: block;
       }

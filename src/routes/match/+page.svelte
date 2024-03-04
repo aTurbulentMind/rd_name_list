@@ -1,31 +1,36 @@
 <script>
+  // Retrieve the match roster data from session storage or initialize an empty array
 	let matchRoster = JSON.parse(sessionStorage.getItem('matchRoster')) || [];
-</script>
+	</script>
 
-<grid>
-
-{#each matchRoster as player}
+	<!-- Create a grid layout -->
+	<grid>
+	{#each matchRoster as player}
+		<!-- For each player in the match roster, create a name card -->
 		<namecard>
-			<number> #{player.player_number}</number>
-			<nickname>{player.name}</nickname>
-			<fullname> {player.full_name}</fullname>
+		<!-- Display the player's number -->
+		<number> #{player.player_number}</number>
+		<!-- Display the player's nickname -->
+		<nickname>{player.name}</nickname>
+		<!-- Display the player's full name -->
+		<fullname> {player.full_name}</fullname>
 		</namecard>
 	{/each}
-<button on:click={() => window.print()}>Print</button>
+	<!-- Add a button to trigger printing -->
+	<button on:click={() => window.print()}>Print</button>
 </grid>
+
 
 <!-- svelte-ignore css-unused-selector -->
 <style lang="scss">
 	@use '../style/baseCamp';
 	@page {
 		margin: 0;
-
 	}
+
 	:global(*) {
 		box-sizing: border-box;
 	}
-
-	
 
 	h2 {
 		font-size: var(--f_xl);
@@ -41,8 +46,6 @@
 		font-size: var(--f_xxxl);
 		text-transform: uppercase;
 		z-index: 999;
-
-
 
 		namecard {
 			display: grid;

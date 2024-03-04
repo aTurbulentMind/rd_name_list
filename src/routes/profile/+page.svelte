@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import { supabase } from '$lib/supabaseClient';
 
   let players = [];
@@ -8,6 +8,7 @@
   let selectedPlayerImage = '';
 
 
+  // This function runs when the component mounts
 onMount(async () => {
   // Fetch all players from the 'main' table
   const { data: allPlayersData, error: allPlayersError } = await supabase
@@ -38,6 +39,7 @@ onMount(async () => {
   players = playerData;
 });
 
+// Function to show the details of a player
 async function showPlayerDetails(player) {
   // Set the selected player
   selectedPlayer = player;
@@ -66,6 +68,7 @@ async function showPlayerDetails(player) {
   showModal = true;
 }
 
+// Function to fetch the image of a player
 async function fetchPlayerImage() {
   // Log the name of the selected player for whom the image is being fetched
   console.log('Fetching image for player:', selectedPlayer.name);
@@ -142,10 +145,6 @@ async function fetchPlayerImage() {
 {/if}
 
 
-
-
-
-
 <!-- svelte-ignore css-unused-selector -->
 <style lang="scss">
 	@use '../style/baseCamp';
@@ -153,7 +152,6 @@ async function fetchPlayerImage() {
 		box-sizing: border-box;
 	}
 
-  
   h1{
     text-align: center;
     margin: 10%;
@@ -164,14 +162,12 @@ async function fetchPlayerImage() {
     text-transform: uppercase;
   }
 
-
-    grid{
-      
+  grid{
     text-align: center;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 2rem;
-        margin: 5% 0 5% 15%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin: 5% 0 5% 15%;
 
       button{
         all:unset;
@@ -180,82 +176,77 @@ async function fetchPlayerImage() {
         width: 8vw;
         padding: 1%;
         border-radius: var(--rad);
-
-                profile{
+          
+            profile{
                   display: grid;
                   color: var(--back_Main);
                   font-size: var(--f_lg);
         }
     }
-        
-
     }
 
-.modal {
+  .modal {
   /* Center the modal */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
   /* Style the modal */
-  background-color:  rgba(128, 0, 128, 0.849);
-  color: var(--back_Main);
-  padding: 10px;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 500px;
+    background-color:  rgba(128, 0, 128, 0.849);
+    color: var(--back_Main);
+    padding: 10px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
 
-
-  p{
-    margin:3% 0;
-  }
-
-  
   /* Blur the background */
-  backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
 
-  img{
-    width: 70%;
-    margin:5% 15%;
-  }
+    p{
+      margin:3% 0;
+    }
 
-  button{
-    font-size: var(--f_lg);
-  }
+    img{
+      width: 70%;
+      margin:5% 15%;
+    }
+
+    button{
+      font-size: var(--f_lg);
+    }
 }
 
-.modal-background {
+  .modal-background {
   /* Cover the entire screen */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
   /* Semi-transparent purple background */
-  background-color: rgba(245, 191, 166, 0.5);
+    background-color: rgba(245, 191, 166, 0.5);
 
   /* Blur the background */
-  backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
 }
 
 	@media only screen and (max-width: 740px) {
+        h1{
+          text-align: center;
+          margin: 20%;
+        }
 
-      h1{
-    text-align: center;
-    margin: 20%;
-  }
-
-    grid{
-      grid-template-columns: 1fr 1fr;
-      width: 100vw;
-      margin: 0 2vw;
+        grid{
+          grid-template-columns: 1fr 1fr;
+          width: 100vw;
+          margin: 0 2vw;
 
             button{
-        width: 40vw;
-        padding: 1%;
-        border-radius: var(--rad);
+              width: 40vw;
+              padding: 1%;
+              border-radius: var(--rad);
 
                 profile{
                   display: grid;
@@ -263,7 +254,6 @@ async function fetchPlayerImage() {
                   font-size: var(--f_lg);
         }
     }
-
     }}
 
 </style>

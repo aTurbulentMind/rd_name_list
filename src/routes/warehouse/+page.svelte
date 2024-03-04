@@ -32,6 +32,8 @@ onMount(async () => {
     else items = data;
 });
 
+
+//Function to check if user has access
 async function checkUsrLvl() {
   // Correct usage of supabase.auth.session()
   const { data: userAuth } = await supabase.auth.getSession(); // Retrieve the current authenticated user session data
@@ -52,6 +54,7 @@ async function checkUsrLvl() {
     return;
   }
 
+// Check if the user's access level is less than 7
 if (userData && userData.length > 0) {
       const usrLvl = userData[0].usr_lvl;
       if (usrLvl < 7) {
@@ -179,6 +182,7 @@ async function uploadImage(event) {
   console.log('Image uploaded successfully');
 }
 
+
 // Function to delete an image
 async function deleteImage(itemName) {
   // Construct the file path for the image
@@ -201,7 +205,6 @@ async function deleteImage(itemName) {
     console.error("Error deleting image:", error.message);
   }
 }
-
 
 
 // This function runs when the form is submitted
@@ -262,7 +265,6 @@ async function deleteItem(event){
 }
 
 
-
 // This function is called when a file is selected
 function handleFileChange(event) {
   // Prevent the default form submission behavior
@@ -288,9 +290,8 @@ onMount(fetchData);
       messageType = '';
     }, 3000);
   }
-
-
 </script>
+
 
 <h1>Lets store some inventory</h1>
 
@@ -309,6 +310,7 @@ onMount(fetchData);
       <th>XXXXL</th>
     </tr>
   </thead>
+
   <tbody>
     {#each items as item, index (index)}
       <tr>
@@ -323,22 +325,21 @@ onMount(fetchData);
       </tr>
     {/each}
     {#if userHasAccess}
-
-<tr>
-      <td><input type="text" bind:value={newItemName}></td>
-      <td><input type="number" min="0" bind:value={newItemSmall} required></td>
-      <td><input type="number" min="0" bind:value={newItemMedium} required></td>
-      <td><input type="number" min="0" bind:value={newItemLarge} required></td>
-      <td><input type="number" min="0" bind:value={newItemXL} required></td>
-      <td><input type="number" min="0" bind:value={newItemXXL} required></td>
-      <td><input type="number" min="0" bind:value={newItemXXXL} required></td>
-      <td><input type="number" min="0" bind:value={newItemXXXXL} required></td>
-    </tr>
+      <tr>
+        <td><input type="text" bind:value={newItemName}></td>
+        <td><input type="number" min="0" bind:value={newItemSmall} required></td>
+        <td><input type="number" min="0" bind:value={newItemMedium} required></td>
+        <td><input type="number" min="0" bind:value={newItemLarge} required></td>
+        <td><input type="number" min="0" bind:value={newItemXL} required></td>
+        <td><input type="number" min="0" bind:value={newItemXXL} required></td>
+        <td><input type="number" min="0" bind:value={newItemXXXL} required></td>
+        <td><input type="number" min="0" bind:value={newItemXXXXL} required></td>
+      </tr>
     {/if}
   </tbody>
-  {#if userHasAccess}
-  <button type="button" on:click={addNewItem}>Add New Item</button>
-      {/if}
+    {#if userHasAccess}
+      <button type="button" on:click={addNewItem}>Add New Item</button>
+    {/if}
 </table>
 
 <br>
@@ -346,35 +347,40 @@ onMount(fetchData);
 <br>
 
 {#if userHasAccess}
-
-
-<select class="SelectedItem" on:change={selectItem}>
+  <select class="SelectedItem" on:change={selectItem}>
   <option disabled selected>Select an item</option>
-  {#each items as item, index (index)}
-    <option>{item.item_name}</option>
-  {/each}
+    {#each items as item, index (index)}
+      <option>{item.item_name}</option>
+    {/each}
 </select>
-
 
 
 {#if selectedItem}
 <form on:submit|preventDefault={uploadImage} >
   <img src={selectedItem.image} alt={selectedItem.item_name}>
   <br>
+
     <label for="imageUpload">Upload Image:</label>
-    <input class="choose" type="file" id="imageUpload" bind:files={selectedFiles} accept="image/*" on:change|preventDefault={handleFileChange}>
-    <button type="submit">Add image</button>
+    <input 
+        class="choose" 
+        type="file" 
+        id="imageUpload" 
+        bind:files={selectedFiles} 
+        accept="image/*" 
+        on:change|preventDefault={handleFileChange}
+        >
+        <button type="submit">Add image</button>
 
 
-  <button
-    class="delete"
-    on:click={() => {
-      const itemName = selectedItem.item_name;
-      console.log("Triggering deleteImage for item:", itemName);
-      deleteImage(itemName);
-    }}
-  >
-    Delete Image
+    <button
+        class="delete"
+        on:click={() => {
+            const itemName = selectedItem.item_name;
+            console.log("Triggering deleteImage for item:", itemName);
+            deleteImage(itemName);
+        }}
+    >
+        Delete Image
   </button>
 </form>
 {/if}
@@ -386,15 +392,32 @@ onMount(fetchData);
     <p class={messageType}>{message}</p>
     <img src={selectedItem.image} alt={selectedItem.item_name}>
     <ul>
-      <li>Small: {selectedItem.small} <br> <input type="number" min="0" bind:value={selectedItem.small}></li>
-      <li>Medium: {selectedItem.medium} <br> <input type="number" min="0" bind:value={selectedItem.medium}></li>
-      <li>Large: {selectedItem.lrg} <br> <input type="number" min="0" bind:value={selectedItem.lrg}></li>
-      <li>XL: {selectedItem.xl} <br> <input type="number" min="0" bind:value={selectedItem.xl}></li>
+      <li>Small: {selectedItem.small}  
+        <br>
+        <input type="number" min="0" bind:value={selectedItem.small}></li>
+      
+        <li>Medium: {selectedItem.medium} 
+        <br>
+        <input type="number" min="0" bind:value={selectedItem.medium}></li>
+      
+        <li>Large: {selectedItem.lrg}
+        <br>
+        <input type="number" min="0" bind:value={selectedItem.lrg}></li>
+      
+        <li>XL: {selectedItem.xl} 
+        <br>
+        <input type="number" min="0" bind:value={selectedItem.xl}></li>
       </ul>
       <ul>
-      <li>XXL: {selectedItem.xxl} <br> <input type="number" min="0" bind:value={selectedItem.xxl}></li>
-      <li>XXXL: {selectedItem.xxxl} <br> <input type="number" min="0" bind:value={selectedItem.xxxl}></li>
-      <li>XXXXL: {selectedItem.xxxxl} <br> <input type="number" min="0" bind:value={selectedItem.xxxxl}></li>
+        <li>XXL: {selectedItem.xxl} 
+        <br>
+          <input type="number" min="0" bind:value={selectedItem.xxl}></li>
+        <li>XXXL: {selectedItem.xxxl} 
+        <br>
+          <input type="number" min="0" bind:value={selectedItem.xxxl}></li>
+        <li>XXXXL: {selectedItem.xxxxl} 
+        <br>
+          <input type="number" min="0" bind:value={selectedItem.xxxxl}></li>
     </ul>
     <br>
 
@@ -404,11 +427,12 @@ onMount(fetchData);
   <button type="button" on:click={deleteItem} class="delete">Delete Item</button>
     
   </form>
-{/if}
-{:else}
-  <p>{message}</p>
-  <a href="/">Go Home</a>
-{/if}
+
+  {/if}
+  {:else}
+    <p>{message}</p>
+    <a href="/">Go Home</a>
+  {/if}
 
 
 <!-- svelte-ignore css-unused-selector -->
@@ -460,55 +484,53 @@ onMount(fetchData);
     cursor: default;
   }
 
-.SelectedItem {
-  width:fit-content;
-  height: fit-content;
-  margin-left: 10%;
-  border: none;
-  border-radius: 5px;
-  padding: 1%;
-  background-color: #f8f8f8;
-  font-size: var(--f_lg);
-  color: var(--text_Main);
-  box-shadow: 0 0 5px var(--purps);
-}
+  .SelectedItem {
+    width:fit-content;
+    height: fit-content;
+    margin-left: 10%;
+    border: none;
+    border-radius: 5px;
+    padding: 1%;
+    background-color: #f8f8f8;
+    font-size: var(--f_lg);
+    color: var(--text_Main);
+    box-shadow: 0 0 5px var(--purps);
+  }
 
-.SelectedItem:focus {
-  outline: none;
-}
+  .SelectedItem:focus {
+    outline: none;
+  }
 
-.SelectedItem option {
-  padding: 5px;
-}
+  .SelectedItem option {
+    padding: 5px;
+  }
 
-.choose{
-  all: unset;
-  
-}
+  .choose{
+    all: unset;
+  }
 
   form{
     width: 70%;
     margin-left: 10%;
     margin-top: 10%;
-    
-      text-align: center;
+    text-align: center;
 
     label{
       text-align: center;
     }
 
     h2{
-        margin:5% 0;
+      margin:5% 0;
     }
 
     ul{
-        display: flex;
-        padding: 1%;
-        margin-left: 20%;
+      display: flex;
+      padding: 1%;
+      margin-left: 20%;
         
         li{
-            display: block;
-            padding: 1%;
+          display: block;
+          padding: 1%;
         }
     }
 
@@ -527,14 +549,13 @@ onMount(fetchData);
       color: var(--back_Main);
 
           &:hover{
-        box-shadow: var(--box_Light_Wide);
-    }
+              box-shadow: var(--box_Light_Wide);
+          }
         }
 
-
     .delete{
-                background-color: var(--halter);
-            }
+              background-color: var(--halter);
+        }
 }
 
     .larrg{

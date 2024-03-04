@@ -3,17 +3,13 @@
     margin: 0;
     font-family: var(--font_Main);
     scroll-behavior: smooth;
-
-    // &:hover{
-    //     box-shadow: var(--box_Light_Wide);
-    // }
     }
     
     body {
-		color: var(--text_Main);
-		background-color: var(--back_Main);
-		font-family: var(--font_Main);
-        overflow-x: hidden;
+	color: var(--text_Main);
+	background-color: var(--back_Main);
+	font-family: var(--font_Main);
+    overflow-x: hidden;
 	}
 
     a {
@@ -22,7 +18,7 @@
     font-weight: 500;
     z-index: 10;
 
-    &:hover {
+        &:hover {
         transition: all 0.3s ease-in-out;
         color: var(--highlight);
         transform: scale(1.1);
@@ -30,11 +26,10 @@
         text-decoration: underline;
         text-shadow: var(--text_Shadow);
     }
-
     }
 
     span{
-        color: var(--highlight);
+    color: var(--highlight);
     }
 
 
@@ -42,9 +37,8 @@
     @media (min-width: 780px) {}
 
     @media (min-width: 1280px) {
-
         p{
-            margin-top: 10vh;
-            font-size: var(--f_lg);
+        margin-top: 10vh;
+        font-size: var(--f_lg);
         }
     }

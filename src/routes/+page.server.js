@@ -1,8 +1,5 @@
 import { supabase } from "$lib/supabaseClient";
 
-
-
-
 export async function load() {
   try {
     const { data: mainData, mainError } = await supabase.from('main').select();
@@ -18,6 +15,7 @@ export async function load() {
       rstr: rstrData ?? [],
       details: detailsData ?? [],
     };
+    
   } catch (error) {
     console.error('Error fetching data: ', error);
     return {

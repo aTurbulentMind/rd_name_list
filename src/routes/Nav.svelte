@@ -22,6 +22,7 @@
 					>
 				</button>
 			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 1} on:click={() => (current = 1)} href="/printMatch"
@@ -29,6 +30,7 @@
 					>
 				</button>
 			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 2} on:click={() => (current = 2)} href="/warehouse"
@@ -36,11 +38,13 @@
 					>
 				</button>
 			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 3} on:click={() => (current = 3)} href="/profile">Team Roster</a>
 				</button>
 			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 4} on:click={() => (current = 4)} href="/login"
@@ -48,6 +52,7 @@
 					>
 				</button>
 			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 5} on:click={() => (current = 5)} href="/">Home</a>
@@ -101,42 +106,11 @@
 		}
 	}
 
-	ul {
-		flex-direction: row;
-	}
-
 	button {
 		all: unset;
 	}
 
-	@media only screen and (max-width: 767px) {
-		.navbar {
-			height: 3rem;
-
-				.logo {
-			font-size: var(--f_m);
-	}
-
-		}
-
-		nav {
-			display: none;
-		}
-
-		nav.open {
-			display: block;
-			position: absolute;
-			top: 100%;
-			left: 0;
-			background-color: var(--orgs);
-			width: 100%;
-		}
-	
-
-
-}
-
-ul {
+	ul {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -172,7 +146,7 @@ ul {
 		left: 0;
 		width: 100%;
 		height: 2px;
-		background-color: var(--back_Main);
+		background-color: var(--back_Alt);
 	}
 
 	.burger {
@@ -200,6 +174,30 @@ ul {
 		position: absolute;
 	}
 
+	@media only screen and (max-width: 767px) {
+		.navbar {
+			height: 3rem;
+
+				.logo {
+			font-size: var(--f_m);
+				}
+		}
+
+		nav {
+			display: none;
+		}
+
+		nav.open {
+			display: block;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: var(--orgs);
+			width: 100%;
+		}
+}
+
+
 	@media only screen and (min-width: 768px) {
 		.burger {
 			display: none;
@@ -212,9 +210,6 @@ ul {
 		.space {
 			margin-right: 2vw;
 		}
-	}
-
-	@media only screen and (min-width: 740px) {
 	}
 
 	@media only screen and (min-width: 980px) {

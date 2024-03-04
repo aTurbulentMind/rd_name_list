@@ -5,7 +5,8 @@
 
     let user = {}; // Initialize user object to store the user's data
     let userImage = '';
-    
+
+    //Function to fetch user data
     onMount(async () => {
       // Correct usage of supabase.auth.session()
       const { data: userAuth } = await supabase.auth.getSession(); // Retrieve the current authenticated user session data
@@ -61,6 +62,7 @@
     });
 
 
+//Function to fetch player image
 async function fetchPlayerImage() {
   // Log the name of the selected player for whom the image is being fetched
   console.log('Fetching image for player:', user.name);
@@ -81,7 +83,8 @@ async function fetchPlayerImage() {
   console.log('Selected player image:', userImage);
 }
 
-    
+
+//Function to update user data
 async function updateUserMain(field, value) {
   // Check if user is logged in
   const userAuth = supabase.auth.getSession();
@@ -104,6 +107,8 @@ async function updateUserMain(field, value) {
   onMount();
 }
 
+
+//Function to update Rstr table
 async function updateUserRstr(field, value) {
   // Check if user is logged in
   const userAuth = supabase.auth.getSession();
@@ -126,6 +131,8 @@ async function updateUserRstr(field, value) {
   onMount();
 }
 
+
+//Function to update Details table
 async function updateUserDetails(field, value) {
   // Check if user is logged in
   const userAuth = supabase.auth.getSession();
@@ -149,13 +156,15 @@ async function updateUserDetails(field, value) {
 }
 
 
-  async function handleUpdateInfo() {
+//Function to handle update info
+async function handleUpdateInfo() {
     await updateUserMain('email', user.email);
     await updateUserRstr('name', user.name);
     await updateUserDetails('name', user.name);
   }
     
 
+//Function to handle logout
 function logout() {
   supabase.auth.signOut();
   // Add any additional logic here, such as redirecting to the login page or updating the UI
@@ -163,6 +172,7 @@ function logout() {
   
 }
 </script>
+
 
 <h1>Your info</h1>
 
@@ -172,26 +182,64 @@ function logout() {
   {/if}
 <grid >
 
-<h2>Email: </h2> <p>{user.email}</p>
+    <h2>Email: </h2> 
+    <p>{user.email}</p>
 
-<h2>Number: </h2><p><input bind:value={user.player_number} on:change={() => updateUserRstr('player_number', user.player_number)} placeholder={user.player_number ? '' : 'Add Info'} /></p>
+    <h2>Number: </h2>
+    <p>
+      <input 
+          bind:value={user.player_number} 
+          on:change={() => updateUserRstr('player_number', user.player_number)} placeholder={user.player_number ? '' : 'Add Info'} 
+          />
+    </p>
 
-<h2>Full Name: </h2><p><input bind:value={user.full_name} on:change={() => updateUserRstr('full_name', user.full_name)} placeholder={user.full_name ? '' : 'Add Info'} /></p>
+    <h2>Full Name: </h2>
+    <p>
+      <input 
+          bind:value={user.full_name} 
+          on:change={() => updateUserRstr('full_name', user.full_name)} placeholder={user.full_name ? '' : 'Add Info'} 
+          />
+      </p>
 
-<h2>Role: </h2><p><input bind:value={user.role} on:change={() => updateUserDetails('role', user.role)} placeholder={user.role ? '' : 'Add Info'} /></p>
+    <h2>Role: </h2>
+    <p>
+      <input 
+        bind:value={user.role} 
+        on:change={() => updateUserDetails('role', user.role)} placeholder={user.role ? '' : 'Add Info'} 
+        />
+    </p>
 
-<h2>From Location: </h2><p><input bind:value={user.from_location} on:change={() => updateUserDetails('from_location', user.from_location)} placeholder={user.from_location ? '' : 'Add Info'} /></p>
+    <h2>From Location: </h2>
+    <p>
+      <input 
+          bind:value={user.from_location} 
+          on:change={() => updateUserDetails('from_location', user.from_location)} placeholder={user.from_location ? '' : 'Add Info'} 
+          />
+    </p>
 
-<h2>Hobbies: </h2><p><input bind:value={user.hobbies} on:change={() => updateUserDetails('hobbies', user.hobbies)} placeholder={user.hobbies ? '' : 'Add Info'} /></p>
+    <h2>Hobbies: </h2>
+    <p>
+      <input 
+          bind:value={user.hobbies} 
+          on:change={() => updateUserDetails('hobbies', user.hobbies)} placeholder={user.hobbies ? '' : 'Add Info'} 
+          />
+    </p>
 
-<h2>Story: </h2><p><input bind:value={user.story} on:change={() => updateUserDetails('story', user.story)} placeholder={user.story ? '' : 'Add Info'} /></p>
+    <h2>Story: </h2>
+    <p>
+      <input 
+          bind:value={user.story} 
+          on:change={() => updateUserDetails('story', user.story)} placeholder={user.story ? '' : 'Add Info'} 
+          />
+    </p>
 
 
-<button on:click={handleUpdateInfo} type="button">Update info</button>
+    <button on:click={handleUpdateInfo} type="button">Update info</button>
 
+    <button style="background-color: var(--purps); " on:click={() => goto('/')}>Home</button>
 
-<button style="background-color: var(--purps); " on:click={() => goto('/')}>Home</button>
-<button style="background-color: var(--halter); " on:click={() => logout()}>Logout</button>
+    <button style="background-color: var(--halter); " on:click={() => logout()}>Logout</button>
+
 </grid>
 
 
@@ -203,7 +251,7 @@ function logout() {
 		box-sizing: border-box;
 	}
 
-    h1{
+  h1{
     text-align: center;
     margin: 10%;
   }
@@ -221,8 +269,8 @@ function logout() {
 
 grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns */
-  gap: 15px; /* Gap between grid items */
+  grid-template-columns: 1fr 1fr; 
+  gap: 15px;
   margin: 10vh 20vw;
   width: 60vw;
   border-radius: var(--rad);
@@ -262,23 +310,23 @@ button{
 }
 
 	@media only screen and (max-width: 740px) {
-      img{
-    width: 60vw;
-    margin: 0 20vw;
-  }
+    img{
+      width: 60vw;
+      margin: 0 20vw;
+    }
 
     grid {
       grid-template-columns: 1fr;
       width: 90vw;
       margin:5vw;
 
-              h2 {
+        h2 {
           font-size: var(--f_m);
         }
 
         input{
           width: 80%;
-  }
+        }
     }
 	}
 

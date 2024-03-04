@@ -7,40 +7,74 @@ let data = [];
 let gameRoster = [];
 let matchRoster = [];
 
-onMount(async () => {
-    let { data: rstr, error } = await supabase
-        .from('rstr')
-        .select('*')
 
-    if (error) console.error(error);
-    else data = rstr.map(item => ({...item, selected: false}));
+//  Fetching Roster Data on Component Mount
+onMount(async () => {
+  // When the component mounts, fetch data from the 'rstr' table using Supabase.
+  let { data: rstr, error } = await supabase
+    .from('rstr')
+    .select('*');
+
+  // If there's an error fetching data, log it.
+  if (error) console.error(error);
+  else {
+    // If successful, map the retrieved data to include a 'selected' property (initially set to false).
+    data = rstr.map(item => ({ ...item, selected: false }));
+  }
 });
 
+//  Adding a Player to the Game Roster
 function addToGameRoster(number) {
-    const index = data.findIndex(item => item.player_number === number);
-    data[index].selected = true;
-    gameRoster = data.filter(item => item.selected);
-    matchRoster = [...gameRoster];
+  // Find the player in the data array based on their player number.
+  const index = data.findIndex(item => item.player_number === number);
+
+  // Mark the player as selected (add them to the game roster).
+  data[index].selected = true;
+
+  // Update the game roster by filtering out only the selected players.
+  gameRoster = data.filter(item => item.selected);
+
+  // Update the match roster (which appears to be a copy of the game roster).
+  matchRoster = [...gameRoster];
 }
 
+// Removing a Player from the Game Roster
 function removeFromGameRoster(number) {
-    const index = data.findIndex(item => item.player_number === number);
-    data[index].selected = false;
-    gameRoster = data.filter(item => item.selected);
-    matchRoster = [...gameRoster];
+  // Find the player in the data array based on their player number.
+  const index = data.findIndex(item => item.player_number === number);
+
+  // Mark the player as not selected (remove them from the game roster).
+  data[index].selected = false;
+
+  // Update the game roster by filtering out only the selected players.
+  gameRoster = data.filter(item => item.selected);
+
+  // Update the match roster (which appears to be a copy of the game roster).
+  matchRoster = [...gameRoster];
 }
 
-
+//  Selecting All Players
 function selectAll() {
-    data = data.map(item => ({...item, selected: true}));
-    gameRoster = data.filter(item => item.selected);
-    matchRoster = [...gameRoster];
+  // Mark all players as selected.
+  data = data.map(item => ({ ...item, selected: true }));
+
+  // Update the game roster with all selected players.
+  gameRoster = data.filter(item => item.selected);
+
+  // Update the match roster (which appears to be a copy of the game roster).
+  matchRoster = [...gameRoster];
 }
 
+//  Deselecting All Players
 function unselectAll() {
-    data = data.map(item => ({...item, selected: false}));
-    gameRoster = [];
-    matchRoster = [];
+  // Mark all players as not selected.
+  data = data.map(item => ({ ...item, selected: false }));
+
+  // Clear the game roster.
+  gameRoster = [];
+
+  // Clear the match roster.
+  matchRoster = [];
 }
 
 
@@ -57,15 +91,10 @@ function generateMatchPage() {
 
 <h1>Print match page</h1>
 
-<p class="larrg">This should be viewed of a full sceen</p>
+<p class="larrg">This should be viewed on a full sceen</p>
 
 <grid>
-
 <h2>The whole team</h2>
-
-
-
-
 
 <button style="background-color: var(--grabber); text-align:center;" on:click={selectAll}>Select All</button>
 <button style="background-color: var(--halter); text-align:center;" on:click={unselectAll}>Unselect All</button>
@@ -78,14 +107,13 @@ function generateMatchPage() {
     </rosterPick>
 {/each}
 
-	<h2>Print</h2>
+<h2>Print</h2>
 	<button
 		style="background-color: var(--purps); font-size:var(--f_xl);"
 		on:click={generateMatchPage}>Generate Match Page</button
 	>
 
 <h2>The next match</h2>
-
 {#each matchRoster as player}
 <namecard>
     <number> {player.player_number}</number>
@@ -103,11 +131,10 @@ function generateMatchPage() {
 		box-sizing: border-box;
 	}
 
-	  h1{
+	h1{
     text-align: center;
     margin: 10%;
-  }
-
+}
 
 	h2 {
 		font-size: var(--f_xl);
@@ -199,13 +226,13 @@ function generateMatchPage() {
 
     .larrg{
     display: none;
-  }
+    }
 
-  	@media only screen and (max-width: 740px) {
-      .larrg{
-        display: block;
-      }
-	}
+  	  @media only screen and (max-width: 740px) {
+      	  .larrg{
+        		display: block;
+        	}
+			}
 
 	@media only screen and (min-width: 980px) {
 	}
